@@ -1,6 +1,11 @@
+import { setFilter } from 'components/store/contactsSlice';
 import styles from '../addContactForm/addContactForm.module.css';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Filter = ({ filter, handleChange }) => {
+const Filter = () => {
+  const filter = useSelector(state => state.contacts.filter);
+  const dispatch = useDispatch();
+
   return (
     <>
       <label
@@ -15,7 +20,9 @@ const Filter = ({ filter, handleChange }) => {
         id="filter"
         name="filter"
         value={filter}
-        onChange={handleChange}
+        onChange={({ target }) => {
+          dispatch(setFilter(target.value));
+        }}
       />
     </>
   );

@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import styles from './addContactForm.module.css';
 import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'components/store/contactsSlice';
 
-const AddContactForm = ({ setContacts }) => {
+const AddContactForm = () => {
   const [state, setState] = useState({
     name: '',
     number: '',
   });
   const { name, number } = state;
+  const dispatch = useDispatch();
 
   const setContact = (key, value) => {
     setState(prev => {
@@ -26,8 +29,7 @@ const AddContactForm = ({ setContacts }) => {
       name: name,
       number: number,
     };
-    setContacts(newContact);
-
+    dispatch(addContact(newContact));
     setContact('name', '');
     setContact('number', '');
   };
