@@ -1,9 +1,10 @@
-import { setFilter } from 'components/store/contactsSlice';
+import { setFilter } from 'store/contactsSlice';
 import styles from '../addContactForm/addContactForm.module.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { selectFilter } from 'store/selector';
 
 const Filter = () => {
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   return (
