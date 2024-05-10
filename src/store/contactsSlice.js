@@ -29,6 +29,7 @@ export default persistReducer(
   {
     key: 'contacts',
     storage,
+    blacklist: ['filter'],
   },
   contactsSlice.reducer
 );

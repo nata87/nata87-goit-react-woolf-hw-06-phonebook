@@ -7,35 +7,24 @@ const ContactList = () => {
   const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
+  const filtered = filter
+    ? contacts.filter(({ name }) =>
+        name.toLowerCase().includes(filter.toLowerCase())
+      )
+    : contacts;
   return (
     <ul>
-      {filter
-        ? contacts
-            .filter(({ name }) =>
-              name.toLowerCase().includes(filter.toLowerCase())
-            )
-            .map(({ name, number, id }) => (
-              <li key={id}>
-                {name}: {number}
-                <button
-                  style={{ marginLeft: '20px' }}
-                  onClick={() => dispatch(deleteContact(id))}
-                >
-                  Delete
-                </button>
-              </li>
-            ))
-        : contacts.map(({ name, number, id }) => (
-            <li key={id}>
-              {name}: {number}
-              <button
-                style={{ marginLeft: '20px' }}
-                onClick={() => dispatch(deleteContact(id))}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
+      {filtered.map(({ name, number, id }) => (
+        <li key={id}>
+          {name}: {number}
+          <button
+            style={{ marginLeft: '20px' }}
+            onClick={() => dispatch(deleteContact(id))}
+          >
+            Delete
+          </button>
+        </li>
+      ))}
     </ul>
   );
 };
