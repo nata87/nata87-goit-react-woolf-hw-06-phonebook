@@ -1,32 +1,41 @@
-import { deleteContact } from 'components/store/contactsSlice';
+import { deleteContact } from 'store/contactsSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { selectFilter, selectItems } from 'store/selector';
 
 const ContactList = () => {
-  const contacts = useSelector(({ contacts }) => contacts.items);
-  const filter = useSelector(({ contacts }) => contacts.filter);
+  const contacts = useSelector(selectItems);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
-  const list = list => {
-    return list.map(({ name, number, id }) => (
-      <li key={id}>
-        {name}: {number}
-        <button
-          style={{ marginLeft: '20px' }}
-          onClick={() => dispatch(deleteContact(id))}
-        >
-          Delete
-        </button>
-      </li>
-    ));
-  };
+
   return (
     <ul>
-      {!filter
-        ? list(contacts)
-        : list(
-            contacts.filter(({ name }) => {
-              return name.toLowerCase().includes(filter.toLowerCase());
-            })
-          )}
+      {filter
+        ? contacts
+            .filter(({ name }) =>
+              name.toLowerCase().includes(filter.toLowerCase())
+            )
+            .map(({ name, number, id }) => (
+              <li key={id}>
+                {name}: {number}
+                <button
+                  style={{ marginLeft: '20px' }}
+                  onClick={() => dispatch(deleteContact(id))}
+                >
+                  Delete
+                </button>
+              </li>
+            ))
+        : contacts.map(({ name, number, id }) => (
+            <li key={id}>
+              {name}: {number}
+              <button
+                style={{ marginLeft: '20px' }}
+                onClick={() => dispatch(deleteContact(id))}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
     </ul>
   );
 };
